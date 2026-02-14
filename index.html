@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#1B5E20" />
-  <meta name="description" content="SalahMinder - Your Islamic Prayer Tracker. Track your 5 daily prayers, build streaks, and stay connected with Allah." />
+  <meta name="description"
+    content="SalahMinder - Your Islamic Prayer Tracker. Track your 5 daily prayers, build streaks, and stay connected with Allah." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>SalahMinder - Prayer Tracker</title>
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-  <link rel="apple-touch-icon" href="/icon-192.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap"
+    rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
-  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="./src/styles.css" />
 </head>
+
 <body>
   <div id="app">
     <!-- Top App Bar -->
@@ -34,7 +38,7 @@
 
     <!-- Page Container -->
     <main class="page-container" id="pageContainer">
-      
+
       <!-- HOME PAGE -->
       <section class="page active" id="homePage">
         <!-- Islamic Greeting -->
@@ -174,10 +178,14 @@
       <section class="page" id="tasbihPage">
         <h2 class="page-title">Tasbih Counter</h2>
         <div class="tasbih-presets" id="tasbihPresets">
-          <button class="tasbih-preset active" data-dhikr="SubhanAllah">سُبْحَانَ اللَّهِ<br><small>SubhanAllah</small></button>
-          <button class="tasbih-preset" data-dhikr="Alhamdulillah">الْحَمْدُ لِلَّهِ<br><small>Alhamdulillah</small></button>
-          <button class="tasbih-preset" data-dhikr="AllahuAkbar">اللَّهُ أَكْبَرُ<br><small>Allahu Akbar</small></button>
-          <button class="tasbih-preset" data-dhikr="Istighfar">أَسْتَغْفِرُ اللَّهَ<br><small>Astaghfirullah</small></button>
+          <button class="tasbih-preset active" data-dhikr="SubhanAllah">سُبْحَانَ
+            اللَّهِ<br><small>SubhanAllah</small></button>
+          <button class="tasbih-preset" data-dhikr="Alhamdulillah">الْحَمْدُ
+            لِلَّهِ<br><small>Alhamdulillah</small></button>
+          <button class="tasbih-preset" data-dhikr="AllahuAkbar">اللَّهُ أَكْبَرُ<br><small>Allahu
+              Akbar</small></button>
+          <button class="tasbih-preset" data-dhikr="Istighfar">أَسْتَغْفِرُ
+            اللَّهَ<br><small>Astaghfirullah</small></button>
           <button class="tasbih-preset" data-dhikr="Durud">ﷺ<br><small>Durud Sharif</small></button>
         </div>
         <div class="tasbih-display">
@@ -241,7 +249,8 @@
 
           <!-- Notifications -->
           <div class="settings-group">
-            <h3 class="settings-group-title"><span class="material-icons-round">notifications</span> Prayer Notifications</h3>
+            <h3 class="settings-group-title"><span class="material-icons-round">notifications</span> Prayer
+              Notifications</h3>
             <div class="setting-item toggle-item">
               <span>Enable Notifications</span>
               <label class="toggle">
@@ -262,7 +271,8 @@
 
           <!-- Dhikr Reminders -->
           <div class="settings-group">
-            <h3 class="settings-group-title"><span class="material-icons-round">self_improvement</span> Dhikr Reminders</h3>
+            <h3 class="settings-group-title"><span class="material-icons-round">self_improvement</span> Dhikr Reminders
+            </h3>
             <div class="setting-item toggle-item">
               <span>Istighfar Reminders</span>
               <label class="toggle">
@@ -351,7 +361,7 @@
           <button class="btn-primary save-btn" id="saveSettingsBtn">
             <span class="material-icons-round">save</span> Save Settings
           </button>
-          
+
           <div class="app-info">
             <p>SalahMinder v1.0</p>
             <p class="app-info-sub">May Allah accept your prayers 🤲</p>
@@ -385,7 +395,8 @@
       <div class="modal">
         <div class="modal-header">
           <h3>Log Qada Prayer</h3>
-          <button class="icon-btn modal-close" id="qadaModalClose"><span class="material-icons-round">close</span></button>
+          <button class="icon-btn modal-close" id="qadaModalClose"><span
+              class="material-icons-round">close</span></button>
         </div>
         <div class="modal-body">
           <div class="setting-item">
@@ -414,7 +425,8 @@
       <div class="modal">
         <div class="modal-header">
           <h3>Set Target</h3>
-          <button class="icon-btn modal-close" id="targetModalClose"><span class="material-icons-round">close</span></button>
+          <button class="icon-btn modal-close" id="targetModalClose"><span
+              class="material-icons-round">close</span></button>
         </div>
         <div class="modal-body">
           <div class="target-presets">
@@ -452,4 +464,5 @@
 
   <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>

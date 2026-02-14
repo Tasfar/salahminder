@@ -101,16 +101,6 @@ function setupPWAInstall() {
     });
 }
 
-// ---- Service Worker ----
-function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').then((reg) => {
-            console.log('Service Worker registered:', reg.scope);
-        }).catch((err) => {
-            console.warn('SW registration failed:', err);
-        });
-    }
-}
 
 // ---- Default Settings ----
 async function setDefaultSettings() {
@@ -146,7 +136,7 @@ async function initApp() {
 
         // Setup PWA
         setupPWAInstall();
-        registerServiceWorker();
+        // Service worker handled by vite-plugin-pwa
 
         // Initialize all pages
         await initHome();
