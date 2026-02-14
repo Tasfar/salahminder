@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B5E20"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+  <text x="256" y="200" text-anchor="middle" fill="#FFD54F" font-size="120" font-family="serif">☪</text>
+  <text x="256" y="320" text-anchor="middle" fill="white" font-size="60" font-weight="bold" font-family="sans-serif">Salah</text>
+  <text x="256" y="390" text-anchor="middle" fill="#A5D6A7" font-size="50" font-family="sans-serif">Minder</text>
+</svg>

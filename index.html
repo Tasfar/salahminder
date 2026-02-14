@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#1B5E20" />
+  <meta name="description" content="SalahMinder - Your Islamic Prayer Tracker. Track your 5 daily prayers, build streaks, and stay connected with Allah." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>SalahMinder - Prayer Tracker</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top App Bar -->
+    <header class="app-bar" id="appBar">
+      <div class="app-bar-content">
+        <div class="app-bar-left">
+          <span class="app-logo">☪</span>
+          <h1 class="app-title">SalahMinder</h1>
+        </div>
+        <div class="app-bar-right">
+          <button class="icon-btn" id="darkModeToggle" aria-label="Toggle dark mode">
+            <span class="material-icons-round">dark_mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Container -->
+    <main class="page-container" id="pageContainer">
+      
+      <!-- HOME PAGE -->
+      <section class="page active" id="homePage">
+        <!-- Islamic Greeting -->
+        <div class="greeting-card">
+          <p class="greeting-arabic amiri">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+          <p class="greeting-text" id="greetingText">Assalamu Alaikum</p>
+          <p class="hijri-date" id="hijriDate"></p>
+        </div>
+
+        <!-- Progress Ring -->
+        <div class="progress-section">
+          <div class="progress-ring-container">
+            <svg class="progress-ring" viewBox="0 0 200 200">
+              <circle class="progress-ring-bg" cx="100" cy="100" r="85" />
+              <circle class="progress-ring-fill" id="progressRing" cx="100" cy="100" r="85" />
+            </svg>
+            <div class="progress-center">
+              <span class="progress-count" id="progressCount">0/5</span>
+              <span class="progress-label">Prayers</span>
+            </div>
+          </div>
+          <div class="streak-badge" id="streakBadge">
+            <span class="streak-fire">🔥</span>
+            <span class="streak-count" id="streakCount">0</span>
+            <span class="streak-label">day streak</span>
+          </div>
+        </div>
+
+        <!-- Next Prayer Countdown -->
+        <div class="next-prayer-card" id="nextPrayerCard">
+          <div class="next-prayer-label">Next Prayer</div>
+          <div class="next-prayer-name" id="nextPrayerName">--</div>
+          <div class="next-prayer-time" id="nextPrayerTime">--:--</div>
+          <div class="next-prayer-countdown" id="nextPrayerCountdown">--</div>
+        </div>
+
+        <!-- Prayer Cards -->
+        <div class="prayer-cards" id="prayerCards">
+          <!-- Dynamically generated -->
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button class="quick-action-btn" id="quickIstighfar">
+            <span class="quick-action-icon">📿</span>
+            <span class="quick-action-label">Istighfar</span>
+            <span class="quick-action-count" id="istighfarCount">0</span>
+          </button>
+          <button class="quick-action-btn" id="quickDurud">
+            <span class="quick-action-icon">🤲</span>
+            <span class="quick-action-label">Durud</span>
+            <span class="quick-action-count" id="durudCount">0</span>
+          </button>
+        </div>
+
+        <!-- Daily Quran Verse -->
+        <div class="quran-card" id="quranCard">
+          <div class="quran-card-header">
+            <span class="material-icons-round">menu_book</span>
+            <span>Daily Verse</span>
+          </div>
+          <p class="quran-arabic amiri" id="quranArabic"></p>
+          <p class="quran-translation" id="quranTranslation"></p>
+          <p class="quran-reference" id="quranReference"></p>
+        </div>
+      </section>
+
+      <!-- STATISTICS PAGE -->
+      <section class="page" id="statsPage">
+        <h2 class="page-title">Statistics</h2>
+        <div class="stats-tabs">
+          <button class="stats-tab active" data-period="week">Week</button>
+          <button class="stats-tab" data-period="month">Month</button>
+          <button class="stats-tab" data-period="year">Year</button>
+        </div>
+        <div class="stats-overview" id="statsOverview">
+          <div class="stat-card">
+            <span class="stat-value" id="statTotalPrayers">0</span>
+            <span class="stat-label">Prayers Completed</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statCompletionRate">0%</span>
+            <span class="stat-label">Completion Rate</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statBestStreak">0</span>
+            <span class="stat-label">Best Streak</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="statMostMissed">--</span>
+            <span class="stat-label">Most Missed</span>
+          </div>
+        </div>
+        <!-- Per-Prayer Stats -->
+        <div class="prayer-stats-chart" id="prayerStatsChart">
+          <!-- Dynamically generated bars -->
+        </div>
+        <!-- Calendar Heatmap -->
+        <div class="heatmap-section">
+          <h3 class="section-title">Prayer Calendar</h3>
+          <div class="heatmap-nav">
+            <button class="icon-btn" id="heatmapPrev"><span class="material-icons-round">chevron_left</span></button>
+            <span id="heatmapMonth">--</span>
+            <button class="icon-btn" id="heatmapNext"><span class="material-icons-round">chevron_right</span></button>
+          </div>
+          <div class="heatmap-grid" id="heatmapGrid">
+            <!-- Dynamically generated -->
+          </div>
+          <div class="heatmap-legend">
+            <span>0</span>
+            <div class="heatmap-legend-colors">
+              <div class="heatmap-color" style="opacity:0.2"></div>
+              <div class="heatmap-color" style="opacity:0.4"></div>
+              <div class="heatmap-color" style="opacity:0.6"></div>
+              <div class="heatmap-color" style="opacity:0.8"></div>
+              <div class="heatmap-color" style="opacity:1"></div>
+            </div>
+            <span>5</span>
+          </div>
+        </div>
+        <!-- Qada Section -->
+        <div class="qada-section">
+          <h3 class="section-title">Qada (Missed Prayers)</h3>
+          <div class="qada-summary" id="qadaSummary">
+            <!-- Dynamically generated -->
+          </div>
+          <button class="btn-primary" id="addQadaBtn">
+            <span class="material-icons-round">add</span> Log Qada Prayer
+          </button>
+          <div class="qada-list" id="qadaList">
+            <!-- Dynamically generated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TASBIH PAGE -->
+      <section class="page" id="tasbihPage">
+        <h2 class="page-title">Tasbih Counter</h2>
+        <div class="tasbih-presets" id="tasbihPresets">
+          <button class="tasbih-preset active" data-dhikr="SubhanAllah">سُبْحَانَ اللَّهِ<br><small>SubhanAllah</small></button>
+          <button class="tasbih-preset" data-dhikr="Alhamdulillah">الْحَمْدُ لِلَّهِ<br><small>Alhamdulillah</small></button>
+          <button class="tasbih-preset" data-dhikr="AllahuAkbar">اللَّهُ أَكْبَرُ<br><small>Allahu Akbar</small></button>
+          <button class="tasbih-preset" data-dhikr="Istighfar">أَسْتَغْفِرُ اللَّهَ<br><small>Astaghfirullah</small></button>
+          <button class="tasbih-preset" data-dhikr="Durud">ﷺ<br><small>Durud Sharif</small></button>
+        </div>
+        <div class="tasbih-display">
+          <div class="tasbih-current-dhikr amiri" id="tasbihDhikrArabic">سُبْحَانَ اللَّهِ</div>
+          <div class="tasbih-counter-ring" id="tasbihTapArea">
+            <svg class="tasbih-ring" viewBox="0 0 250 250">
+              <circle class="tasbih-ring-bg" cx="125" cy="125" r="110" />
+              <circle class="tasbih-ring-fill" id="tasbihRingFill" cx="125" cy="125" r="110" />
+            </svg>
+            <div class="tasbih-count" id="tasbihCount">0</div>
+          </div>
+          <div class="tasbih-target">Target: <span id="tasbihTarget">33</span></div>
+        </div>
+        <div class="tasbih-controls">
+          <button class="tasbih-ctrl-btn" id="tasbihReset"><span class="material-icons-round">refresh</span></button>
+          <button class="tasbih-ctrl-btn" id="tasbihTargetBtn"><span class="material-icons-round">flag</span></button>
+          <button class="tasbih-ctrl-btn" id="tasbihMinus"><span class="material-icons-round">remove</span></button>
+        </div>
+        <div class="tasbih-total">Total today: <span id="tasbihTotalToday">0</span></div>
+      </section>
+
+      <!-- SETTINGS PAGE -->
+      <section class="page" id="settingsPage">
+        <h2 class="page-title">Settings</h2>
+        <div class="settings-list">
+          <!-- Location -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">location_on</span> Location</h3>
+            <div class="setting-item">
+              <label for="cityName">City Name</label>
+              <input type="text" id="cityName" placeholder="e.g. New York" />
+            </div>
+            <div class="setting-row">
+              <div class="setting-item">
+                <label for="latitude">Latitude</label>
+                <input type="number" id="latitude" step="0.0001" placeholder="40.7128" />
+              </div>
+              <div class="setting-item">
+                <label for="longitude">Longitude</label>
+                <input type="number" id="longitude" step="0.0001" placeholder="-74.0060" />
+              </div>
+            </div>
+            <button class="btn-secondary" id="detectLocationBtn">
+              <span class="material-icons-round">my_location</span> Auto-detect
+            </button>
+          </div>
+
+          <!-- Calculation Method -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">calculate</span> Calculation Method</h3>
+            <div class="setting-item">
+              <select id="calcMethod">
+                <option value="ISNA">ISNA (Islamic Society of North America)</option>
+                <option value="MWL">Muslim World League</option>
+                <option value="Egypt">Egyptian General Authority</option>
+                <option value="Makkah">Umm Al-Qura (Makkah)</option>
+                <option value="Karachi">University of Islamic Sciences, Karachi</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">notifications</span> Prayer Notifications</h3>
+            <div class="setting-item toggle-item">
+              <span>Enable Notifications</span>
+              <label class="toggle">
+                <input type="checkbox" id="notifEnabled" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="notifBefore">Remind before prayer</label>
+              <select id="notifBefore">
+                <option value="5">5 minutes</option>
+                <option value="10" selected>10 minutes</option>
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dhikr Reminders -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">self_improvement</span> Dhikr Reminders</h3>
+            <div class="setting-item toggle-item">
+              <span>Istighfar Reminders</span>
+              <label class="toggle">
+                <input type="checkbox" id="istighfarEnabled" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="istighfarInterval">Istighfar Interval</label>
+              <select id="istighfarInterval">
+                <option value="30">Every 30 minutes</option>
+                <option value="60" selected>Every 60 minutes</option>
+                <option value="90">Every 90 minutes</option>
+              </select>
+            </div>
+            <div class="setting-item toggle-item">
+              <span>Durud Reminders</span>
+              <label class="toggle">
+                <input type="checkbox" id="durudEnabled" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="durudInterval">Durud Interval</label>
+              <select id="durudInterval">
+                <option value="30">Every 30 minutes</option>
+                <option value="60" selected>Every 60 minutes</option>
+                <option value="90">Every 90 minutes</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Quiet Hours -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">bedtime</span> Quiet Hours</h3>
+            <div class="setting-item toggle-item">
+              <span>Enable Quiet Hours</span>
+              <label class="toggle">
+                <input type="checkbox" id="quietHoursEnabled" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-item">
+                <label for="quietStart">From</label>
+                <input type="time" id="quietStart" value="23:00" />
+              </div>
+              <div class="setting-item">
+                <label for="quietEnd">To</label>
+                <input type="time" id="quietEnd" value="04:00" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Special Modes -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">star</span> Special Modes</h3>
+            <div class="setting-item toggle-item">
+              <span>Ramadan Mode 🌙</span>
+              <label class="toggle">
+                <input type="checkbox" id="ramadanMode" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item toggle-item">
+              <span>Jummah Reminders</span>
+              <label class="toggle">
+                <input type="checkbox" id="jummahReminder" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dark Mode -->
+          <div class="settings-group">
+            <h3 class="settings-group-title"><span class="material-icons-round">palette</span> Appearance</h3>
+            <div class="setting-item toggle-item">
+              <span>Dark Mode</span>
+              <label class="toggle">
+                <input type="checkbox" id="darkModeSwitch" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-primary save-btn" id="saveSettingsBtn">
+            <span class="material-icons-round">save</span> Save Settings
+          </button>
+          
+          <div class="app-info">
+            <p>SalahMinder v1.0</p>
+            <p class="app-info-sub">May Allah accept your prayers 🤲</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="nav-item active" data-page="homePage">
+        <span class="material-icons-round">home</span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" data-page="statsPage">
+        <span class="material-icons-round">bar_chart</span>
+        <span class="nav-label">Stats</span>
+      </button>
+      <button class="nav-item" data-page="tasbihPage">
+        <span class="material-icons-round">radio_button_checked</span>
+        <span class="nav-label">Tasbih</span>
+      </button>
+      <button class="nav-item" data-page="settingsPage">
+        <span class="material-icons-round">settings</span>
+        <span class="nav-label">Settings</span>
+      </button>
+    </nav>
+
+    <!-- Qada Modal -->
+    <div class="modal-overlay" id="qadaModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Log Qada Prayer</h3>
+          <button class="icon-btn modal-close" id="qadaModalClose"><span class="material-icons-round">close</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-item">
+            <label for="qadaDate">Date Missed</label>
+            <input type="date" id="qadaDate" />
+          </div>
+          <div class="setting-item">
+            <label for="qadaPrayer">Prayer</label>
+            <select id="qadaPrayer">
+              <option value="Fajr">Fajr</option>
+              <option value="Dhuhr">Dhuhr</option>
+              <option value="Asr">Asr</option>
+              <option value="Maghrib">Maghrib</option>
+              <option value="Isha">Isha</option>
+            </select>
+          </div>
+          <button class="btn-primary" id="saveQadaBtn">
+            <span class="material-icons-round">save</span> Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasbih Target Modal -->
+    <div class="modal-overlay" id="targetModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Set Target</h3>
+          <button class="icon-btn modal-close" id="targetModalClose"><span class="material-icons-round">close</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="target-presets">
+            <button class="target-preset" data-target="33">33</button>
+            <button class="target-preset" data-target="99">99</button>
+            <button class="target-preset" data-target="100">100</button>
+            <button class="target-preset" data-target="500">500</button>
+            <button class="target-preset" data-target="1000">1000</button>
+          </div>
+          <div class="setting-item">
+            <label for="customTarget">Custom target</label>
+            <input type="number" id="customTarget" min="1" placeholder="Enter number" />
+          </div>
+          <button class="btn-primary" id="saveTargetBtn">Set Target</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Install PWA Banner -->
+    <div class="install-banner" id="installBanner" style="display:none;">
+      <div class="install-banner-content">
+        <span class="install-banner-text">📱 Install SalahMinder on your device!</span>
+        <div class="install-banner-actions">
+          <button class="btn-secondary btn-small" id="installDismiss">Later</button>
+          <button class="btn-primary btn-small" id="installAccept">Install</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <span class="toast-message" id="toastMessage"></span>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
